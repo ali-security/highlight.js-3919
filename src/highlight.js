@@ -33,8 +33,8 @@ https://highlightjs.org/
       objectKeys = Object.keys;
 
   // Global internal variables used within the highlight.js library.
-  var languages = {},
-      aliases   = {};
+  var languages = Object.create(null),
+      aliases   = Object.create(null);
 
   // Regular expressions used throughout the highlight.js library.
   var noHighlightRe    = /^(no-?highlight|plain|text)$/i,
@@ -886,6 +886,22 @@ https://highlightjs.org/
     begin: '\\.\\s*' + hljs.UNDERSCORE_IDENT_RE,
     relevance: 0
   };
+
+  hljs.source = function(re) {
+    if (!re) return null;
+    if (typeof re === "string") return re;
+  
+    return re.source;
+  }
+
+  hljs.concat = function(...args) {
+    var joined = args.map((x) => hljs.source(x)).join("");
+    return joined;
+  }
+
+  hljs.anyNumberOfTimes = function anyNumberOfTimes(re) {
+    return hljs.concat('(', re, ')*');
+  }
 
   return hljs;
 }));

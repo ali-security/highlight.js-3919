@@ -24,6 +24,9 @@ function testLanguage(language) {
         bluebird.join(sourceFile, expectedFile, function(source, expected) {
           const actual = hljs.highlight(language, source).value;
 
+          console.log(expected.trim())
+          console.log("<------->")
+          console.log(actual.trim())
           actual.trim().should.equal(expected.trim());
           done();
         });
